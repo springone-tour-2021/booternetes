@@ -8,9 +8,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.availability.AvailabilityChangeEvent;
 import org.springframework.boot.availability.LivenessState;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +35,17 @@ public class CustomersApplication {
 		SpringApplication.run(CustomersApplication.class, args);
 	}
 
+	@Bean
+	@Profile("default")
+	ApplicationListener<ApplicationReadyEvent> ready(
+		DatabaseClient dbc,
+		CustomerRepository repository) {
+		return event -> {
+			var ddl = dbc.sql("create table customer if not exists (id serial primary key , name varchar(255) not null)").fetch().rowsUpdated();
+			var saved = Flux.just("A", "B", "C").map(name -> new Customer(null, name)).flatMap(repository::save);
+			ddl.thenMany(saved).subscribe(System.out::println);
+		};
+	}
 
 }
 
