@@ -24,4 +24,7 @@ To run it such that it connects to PostgreSQL, you'll need to provide four envir
 `docker run -e SPRING_PROFILES_ACTIVE=cloud docker.io/library/customers:0.0.1-SNAPSHOT ` 
 
 
+## Scripts
+
+I've put `run.sh` and `build.sh` in the `customers` module. Invoke `build.sh` and then `run.sh`. 
 
