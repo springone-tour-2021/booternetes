@@ -5,6 +5,10 @@
 
 `mvn spring-boot:build-image` 
 
+[change the docker](https://spring.io/guides/gs/spring-boot-docker/) repo:
+
+`/mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=springio/gs-spring-boot-docker`
+
 ## Run 
 
 ## Default Behavior
