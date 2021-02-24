@@ -41,7 +41,7 @@ public class CustomersApplication {
 		DatabaseClient dbc,
 		CustomerRepository repository) {
 		return event -> {
-			var ddl = dbc.sql("create table customer if not exists (id serial primary key , name varchar(255) not null)").fetch().rowsUpdated();
+			var ddl = dbc.sql("create table if not exists customer (id serial primary key , name varchar(255) not null)").fetch().rowsUpdated();
 			var saved = Flux.just("A", "B", "C").map(name -> new Customer(null, name)).flatMap(repository::save);
 			ddl.thenMany(saved).subscribe(System.out::println);
 		};
