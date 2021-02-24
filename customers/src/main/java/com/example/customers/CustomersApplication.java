@@ -36,7 +36,6 @@ public class CustomersApplication {
 	}
 
 	@Bean
-	@Profile("default")
 	ApplicationListener<ApplicationReadyEvent> ready(
 		DatabaseClient dbc,
 		CustomerRepository repository) {
