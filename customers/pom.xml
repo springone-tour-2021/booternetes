@@ -118,9 +118,6 @@
                     <image>
                         <builder>paketobuildpacks/builder:tiny</builder>
                         <env>
-                            <BP_BOOT_NATIVE_IMAGE_BUILD_ARGUMENTS>
-                                --enable-url-protocols=https
-                            </BP_BOOT_NATIVE_IMAGE_BUILD_ARGUMENTS>
                             <BP_BOOT_NATIVE_IMAGE>true</BP_BOOT_NATIVE_IMAGE>
                         </env>
                     </image>
