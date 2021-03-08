@@ -2,6 +2,8 @@ package com.example.orders
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.messaging.handler.annotation.DestinationVariable
+import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.stereotype.Controller
 
 @SpringBootApplication
@@ -34,4 +36,6 @@ class OrdersRSocketController {
         return listOfOrders
     }
 
+    @MessageMapping("orders.{cid}")
+    fun getOrdersFor(@DestinationVariable cid: Int) = this.db[cid]?.toList()
 }
