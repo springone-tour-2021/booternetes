@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: "2021-02-27T19:55:31Z"
+  generation: 1
+  labels:
+    app: customer
+  managedFields:
+  - apiVersion: apps/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:progressDeadlineSeconds: {}
+        f:replicas: {}
+        f:revisionHistoryLimit: {}
+        f:selector:
+          f:matchLabels:
+            .: {}
+            f:app: {}
+        f:strategy:
+          f:rollingUpdate:
+            .: {}
+            f:maxSurge: {}
+            f:maxUnavailable: {}
+          f:type: {}
+        f:template:
+          f:metadata:
+            f:labels:
+              .: {}
+              f:app: {}
+          f:spec:
+            f:containers:
+              k:{"name":"customers"}:
+                .: {}
+                f:image: {}
+                f:imagePullPolicy: {}
+                f:name: {}
+                f:resources: {}
+                f:terminationMessagePath: {}
+                f:terminationMessagePolicy: {}
+            f:dnsPolicy: {}
+            f:restartPolicy: {}
+            f:schedulerName: {}
+            f:securityContext: {}
+            f:terminationGracePeriodSeconds: {}
+    manager: kubectl-create
+    operation: Update
+    time: "2021-02-27T19:55:31Z"
+  name: customer
+  namespace: booternetes
+  resourceVersion: "8217820"
+  selfLink: /apis/apps/v1/namespaces/booternetes/deployments/customer
+  uid: ac09769d-6502-40ba-a36e-b12749b51efb
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: customer
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: customer
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - image: registry.s1t.k8s.camp/s1t/customers:0.0.1-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        name: customers
+        env:
+                - name: MANAGEMENT_SERVER_PORT
+                  value: "9001"
+        livenessProbe:
+                httpGet:
+                        path: /actuator/health/liveness
+                        port: 9001
+        readinessProbe:
+                httpGet:
+                        path: /actuator/health/readiness
+                        port: 9001
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}

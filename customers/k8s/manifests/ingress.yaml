@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  creationTimestamp: "2021-02-27T20:05:38Z"
+  generation: 1
+  managedFields:
+  - apiVersion: networking.k8s.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:cert-manager.io/cluster-issuer: {}
+      f:spec:
+        f:ingressClassName: {}
+        f:rules: {}
+        f:tls: {}
+    manager: kubectl-create
+    operation: Update
+    time: "2021-02-27T20:05:38Z"
+  name: customer
+  namespace: booternetes
+  resourceVersion: "8224449"
+  selfLink: /apis/networking.k8s.io/v1/namespaces/booternetes/ingresses/customer
+  uid: c970e577-8f97-48ea-aba7-d0f6297256e2
+spec:
+  ingressClassName: default
+  rules:
+  - host: crm.s1t.k8s.camp
+    http:
+      paths:
+      - backend:
+          service:
+            name: customer
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - crm.s1t.k8s.camp
+    secretName: crm-secret
+status:
+  loadBalancer: {}
